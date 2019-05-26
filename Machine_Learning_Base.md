@@ -56,13 +56,40 @@ kNNはデータの数が小さい場合や次元が小さい場合は有効
 
 ###教師なし
 * PCA
+主成分分析のこと。
+主成分同士が直交することが特徴。
+主成分ごとの寄与率の差があるデータに対して有効。
+あまり変わらないものに対しては別の手法を用いたほうがよい
 * LSA
+Latent Semantic Analysis、潜在意味解析。
+自然言語処理、情報検索に用いる。
+単語と単語の類似度、文章と単語の類似度を調べることができる。
+行列の特異値分解を利用しているらしい。
+NMFや　LDAのほうが性能が良いことが多い
 * NMF
+Non-negative Matrix Factorization、非負値行列因子分解。
+入力データ、出力データがすべて非負であることが前提の次元削減手法。
+画像データなどを扱うさいにモデルとして解釈しやすいという利点がある。
+NMFはPCAのように潜在変数が直交するという制約がない。
 * LDA
+Latent Dirichlet allocation、潜在的ディリクレ配分法。
+トピックに着目した言語処理手法。
+正直よくわからん。
 * k-means法
+クラスタリング手法。有名
+クラスタ数はハイパーパラメータ。
+Elbow法などによって見当はつけられる。
+クラスタ数に対するWCSS(クラスタ内平方和)の傾きが大きく変わる点を最良とする手法。
+k-means++という手法が現在は基本的。
+初期値を適当に置くと、うまく更新されないことがあるので、初期値をなるたけ離れるように置くように改良されたもの。
 * 混合ガウスモデル
+複数のガウス分布が混ざったものとしてクラスタリングする手法。
+ちなみにガウス分布は正規分布と意味合いはほぼ同じっぽい。
+EMアルゴリズム等で最終的に更新して行くのかな？
 * LLE
+よくわからん、高次元データによいらしい
 * t-SNE
+これも高次元データによいらしい。
 ###半教師あり
 
 ###強化学習
@@ -77,7 +104,7 @@ kNNはデータの数が小さい場合や次元が小さい場合は有効
 * RNN(Recurrent Neural Network)
  系列データ(主に時系列データ)を扱うNN
 * CNN(Convolutional Neural Network)
-* Convolution層とpooling層の積み重ねからなる、Deep Learningの実装方法？
+Convolution層とpooling層の積み重ねからなる、Deep Learningの実装方法？
 * Auto Encoder
 
 その他用語
@@ -86,7 +113,42 @@ kNNはデータの数が小さい場合や次元が小さい場合は有効
 ##略語・用語集
 Local Pooling: 全結合でない結合？
 Global Pooling: 全結合
+スパース性
+* Knowledge Distillation
+知識の蒸留
+大きくて複雑なニューラルネットを教師として
+小さくて軽量なモデルを生徒して学習に利用する。
+単純に生徒モデルを学習するよりも良い制精度を得られる
+参考URL
+http://codecrafthouse.jp/p/2018/01/knowledge-distillation/
 
+
+##活性化関数
+* ステップ関数
+単純パーセプトロンで使われる
+0以下で0
+0より大きくて1
+* シグモイド関数
+入力値が小さいほど0に近づく
+大きいほど1に近づく
+* ReLU
+0以下で0
+1より大きいと入力をそのまま出力
+早いらしい(すべてのReLU関数ではないが)
+0を持っているのでスパース性につながる
+スパース性はたぶん0があることで、モデルが単純になりやすいやつだと思われ
+
+参考URL
+https://qiita.com/hokekiyoo/items/bf7be0ae3bf4aa3905ef
+* softmax
+出力層で使われる
+一般的に分類問題で使われる
+* 恒等関数
+出力層で使われる
+入力された値と同じ値を常に出力する
+
+参考URL
+https://qiita.com/namitop/items/d3d5091c7d0ab669195f
 
 ##学習方法
 * オンライン学習
@@ -95,53 +157,124 @@ Global Pooling: 全結合
 
 ##モデル
 * LSTM-CTC(逆かも)
+LSTMとCTCを組み合わせたもの
+
 ###LSTM
+LSTMは長期記憶の役割を果たすcell stateと短期記憶の役割をはたるhiddenstateを保持する
+参考URL
+http://deeplearning.hatenablog.com/?page=1513676560
+###BLSTM
+Bidirectional LSTMのこと
+
+###TDNN
+Time delay neural networkのこと。
+LSTMと双璧をなす？
+参考URL
+https://wbawakate.jp/data/event/5/rnn.pdf
+
 <!-- 深層学習ここまで -->
 #音声認識基礎
+GMM-HMMがかつての流れ
+それがDNN-HMM、になってゆき
+今はDNNだけ(End-to-End、正確にはRNN+CTC?)になっているのが最近の流
+音が画像と違うところ
+学習データに音素の時間情報がない。
+特徴量も推定される単語列どちらも系列データであること。
+画像は特徴量は系列データではない？
 
-##略語・用語集
-ASR: Automaci speech recoginhition
-AM: Acoustic Model?
-LM: Language Model
+参考URL
+http://sap.ist.i.kyoto-u.ac.jp/members/kawahara/paper/ASJ18-7.pdf
+https://www.slideshare.net/KOTAROSETOYAMA/ss-69708040
+https://www.gavo.t.u-tokyo.ac.jp/~mine/japanese/nlp+slp/IPSJ-MGN451003.pdf
+##略語・用語集 
+ASR: Automatic speech recoginhition
+AM: Acoustic Model(音響モデル)
+LM: Language Model(言語モデル)
 HMM: Hidden Markov Model
 GMM: Gaussian mixture model
 STFT: Short-Time Fiyruer transform(短時間フーリエ変換)
+WFST: 
+DEV WER: 学習データに対するWER?
+EVAL WER: 評価用データに対するWER?
 Wavelet transform、ウェーブレット変換
 EndPoint：発話の終わり？？
 Seq2Seq：Speech-to-Speech、文字列を入力して文字列にする(英語→独語みたいな)
 TTS: Text-to-Speech、文字列から音声を生成する
+BSS: Blind source separation、ブラインド信号源分離
+ADPCM: コーデック手法の一つ。単純なアルゴリズム、超レイテンシ、音声合成や通話に用いられる
+Tempogram:
+* MFCC
+Mel-Frequency Cepstrum Coefficients, メル周波数ケプストラム係数
+音声認識の特徴量
+参考URL
+http://aidiary.hatenablog.com/entry/20120225/1330179868
+* WFBF:
+Warped filterbank flame
+参考URL
+http://contents.acoust.ias.sci.waseda.ac.jp/publications/ASJ/2019/ask-takeuchi-2019Mar.pdf
+* Enbegging
+埋め込み、「文や単語、文字など自然言語の構成要素に対して、何らかの空間におけるベクトルを与えること」
+参考URL
+https://ishitonton.hatenablog.com/entry/2018/11/25/200332
+* Residual BILSTM
+Residual learningとの関連？
+参考URL
+https://www.atmarkit.co.jp/ait/articles/1611/11/news016_2.html
 
 ##評価指標
 SDR: Signal-to-distortion ratio, 信号対ひずみ比
 SDR=10log10{(目的信号の全区間でのパワー)/(目的信号-生成信号の全区間でのパワー)}
 MSE: Mean-Square-Error、平均二乗誤差
+WER: Word Error Rate
+
 
 ##データ・セット一覧
 TIMIT: 
 TCD-TIMIT?
 NTCD-TIMIT
+LIBRISPEECH 
+MUSAN: A Music Speech and Noise Courpus
+AMI: 
 ##コンテスト一覧
+CHiME
+CHiME-5
 
-
-##マルコフモデル系
-
+##GMM-HMM系
+音響的特徴の確率分布モデル＋音素の時系列モデル＋言語モデルといった、複数のモジュールを組み合わせて構築していた従来の音声認識システム
 
 ##NNベース系
+音データセットには発話内容のみで時間情報がない
+→音素の時間情報を同定する作業はコストが高いから。
+そのため従来のNNの音声認識は学習時にHMM等で各音素の区間を推定してからNNにぶちこんでた
 ###encoder-decoder attentionモデル
+
+###CTC
+Connectionist Temporal Calssification。
+他の音声認識の技術の援用を不要とし、NNだけで音声認識するための技術。
+音響的特徴から音素・音節・単語を直接出力できる音声認識システムを構成できる
+
+##WPE(Weighted PRediction Error)法
+参考URL
+https://www.toshiba.co.jp/tech/review/2018/05/73_05pdf/f01.pdf
 <!-- 音声処理基礎ここまで -->
 
 
 #なんたらネット系(暫定)
-SyncNet(2016)：映像と音声のマッチングを取れる、正確には話者の映像と音声だが
-AVE-Net
-ResNet
-WaveNet
-WaveRNN(2018): waveNetの改良型。waveNetは自己回帰モデルで音声生成が遅い、ネットワーク構造を小さくして性能はそのままに高速化したもの。
-ASENet: Attention-based Separation and Extraction Network
-U-Net
-SegNet
-LPCNet: Mozilaの音声合成のNN、waveRNNの発展形らしい、おそらく　Liner prediction combined (waveRN) Net?
-
+* SyncNet(2016)：映像と音声のマッチングを取れる、正確には話者の映像と音声だが
+* AVE-Net
+* ResNet
+Residual BILSTM
+* WaveNet
+* WaveRNN(2018): waveNetの改良型。waveNetは自己回帰モデルで音声生成が遅い、ネットワーク構造を小さくして性能はそのままに高速化したもの。
+* ASENet: Attention-based Separation and Extraction Network
+* U-Net
+* SegNet
+* LPCNet: Mozilaの音声合成のNN、waveRNNの発展形らしい、おそらく　Liner prediction combined (waveRN) Net?
+* DenseNet
+* Cov-RNn
+* CycleGAN
+* GAN
+* PixelPlayer
 #fusion系(暫定)
 FC fusion(Fully Connected fusion)
 Bulinear fusion
