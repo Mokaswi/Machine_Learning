@@ -1,12 +1,12 @@
-#機械学習基礎
-#学習方法
+# 機械学習基礎
+# 学習方法
 * 教師あり(supervised learning)
 * 教師なし(unsupervised learning)
 * 強化学習(Reinforcement learning)
 * 半教師あり(semi-supervised learning)等の亜種や
 * teacher-student model等もあるっぽい
 
-###教師あり
+### 教師あり
 * 線形回帰
 平均二乗誤差が代表例
 単回帰、多回帰、多項式回帰、非線形回帰がある
@@ -54,7 +54,7 @@ kはハイパーパラメータ
 kNNはデータの数が小さい場合や次元が小さい場合は有効
 そうじゃないと遅い
 
-###教師なし
+### 教師なし
 * PCA
 主成分分析のこと。
 主成分同士が直交することが特徴。
@@ -98,7 +98,7 @@ EMアルゴリズム等で最終的に更新して行くのかな？
 
 
 
-#ニューラルネットワーク
+# ニューラルネットワーク
 
 * Recursive Neural Network
 * RNN(Recurrent Neural Network)
@@ -109,6 +109,10 @@ Convolution層とpooling層の積み重ねからなる、Deep Learningの実装�
 
 その他用語
 <!-- ニューラルネットワークここまで -->
+* Embedding(埋め込み)
+自然言語処理において
+「文や単語、文字など自然言語の構成要素に対して、何らかの空間におけるベクトルを与えること」
+Word Embeddingは、各単語に対して固有のベクトルを与えること
 #深層学習
 ##略語・用語集
 Local Pooling: 全結合でない結合？
@@ -123,20 +127,27 @@ Global Pooling: 全結合
 http://codecrafthouse.jp/p/2018/01/knowledge-distillation/
 
 
-##活性化関数
+## 活性化関数
 * ステップ関数
 単純パーセプトロンで使われる
 0以下で0
 0より大きくて1
+古典的な活性化関数
+* tanh
+ハイパボリックタンジェント、形はシグモイドに近い
+古典的な活性化関数
 * シグモイド関数
 入力値が小さいほど0に近づく
 大きいほど1に近づく
-* ReLU
+古典的な活性化関数
+あとは2値問題での出力層に使われることもある
+* ReLU(れるー)
 0以下で0
 1より大きいと入力をそのまま出力
 早いらしい(すべてのReLU関数ではないが)
 0を持っているのでスパース性につながる
 スパース性はたぶん0があることで、モデルが単純になりやすいやつだと思われ
+3層以上だと少なくともReLUじゃないと学習がうまくいかなくなる
 
 参考URL
 https://qiita.com/hokekiyoo/items/bf7be0ae3bf4aa3905ef
@@ -150,30 +161,39 @@ https://qiita.com/hokekiyoo/items/bf7be0ae3bf4aa3905ef
 参考URL
 https://qiita.com/namitop/items/d3d5091c7d0ab669195f
 
-##学習方法
+## 層の種類
+* Convolution
+* Bach
+* Affin(全結合)
+* ReLU
+* softmax
+
+## 学習方法
 * オンライン学習
 * バッチ学習
+* ミニバッチ勾配降下法（Minibatch Gradient Descent)
+* Residual Networks
+* back propagation
 
-
-##モデル
+## モデル
 * LSTM-CTC(逆かも)
 LSTMとCTCを組み合わせたもの
 
-###LSTM
+### LSTM
 LSTMは長期記憶の役割を果たすcell stateと短期記憶の役割をはたるhiddenstateを保持する
 参考URL
 http://deeplearning.hatenablog.com/?page=1513676560
 ###BLSTM
 Bidirectional LSTMのこと
 
-###TDNN
+### TDNN
 Time delay neural networkのこと。
 LSTMと双璧をなす？
 参考URL
 https://wbawakate.jp/data/event/5/rnn.pdf
 
 <!-- 深層学習ここまで -->
-#音声認識基礎
+# 音声認識基礎
 GMM-HMMがかつての流れ
 それがDNN-HMM、になってゆき
 今はDNNだけ(End-to-End、正確にはRNN+CTC?)になっているのが最近の流
@@ -186,7 +206,7 @@ GMM-HMMがかつての流れ
 http://sap.ist.i.kyoto-u.ac.jp/members/kawahara/paper/ASJ18-7.pdf
 https://www.slideshare.net/KOTAROSETOYAMA/ss-69708040
 https://www.gavo.t.u-tokyo.ac.jp/~mine/japanese/nlp+slp/IPSJ-MGN451003.pdf
-##略語・用語集 
+## 略語・用語集 
 ASR: Automatic speech recoginhition
 AM: Acoustic Model(音響モデル)
 LM: Language Model(言語モデル)
@@ -228,38 +248,38 @@ MSE: Mean-Square-Error、平均二乗誤差
 WER: Word Error Rate
 
 
-##データ・セット一覧
+## データ・セット一覧
 TIMIT: 
 TCD-TIMIT?
 NTCD-TIMIT
 LIBRISPEECH 
 MUSAN: A Music Speech and Noise Courpus
 AMI: 
-##コンテスト一覧
+## コンテスト一覧
 CHiME
 CHiME-5
 
-##GMM-HMM系
+## GMM-HMM系
 音響的特徴の確率分布モデル＋音素の時系列モデル＋言語モデルといった、複数のモジュールを組み合わせて構築していた従来の音声認識システム
 
-##NNベース系
+# #NNベース系
 音データセットには発話内容のみで時間情報がない
 →音素の時間情報を同定する作業はコストが高いから。
 そのため従来のNNの音声認識は学習時にHMM等で各音素の区間を推定してからNNにぶちこんでた
 ###encoder-decoder attentionモデル
 
-###CTC
+### CTC
 Connectionist Temporal Calssification。
 他の音声認識の技術の援用を不要とし、NNだけで音声認識するための技術。
 音響的特徴から音素・音節・単語を直接出力できる音声認識システムを構成できる
 
-##WPE(Weighted PRediction Error)法
+## WPE(Weighted PRediction Error)法
 参考URL
 https://www.toshiba.co.jp/tech/review/2018/05/73_05pdf/f01.pdf
 <!-- 音声処理基礎ここまで -->
 
 
-#なんたらネット系(暫定)
+# なんたらネット系(暫定)
 * SyncNet(2016)：映像と音声のマッチングを取れる、正確には話者の映像と音声だが
 * AVE-Net
 * ResNet
@@ -281,3 +301,20 @@ Bulinear fusion
 Deep fusion
 Cold fusion
 Memory control fusion
+
+
+
+# コツ集
+
+* ソフトマックス関数はそのままだとオーバーフローしてしまうのでそのまま使わない
+* 最大数で引いて値を小さくしてから使う
+* 実際はソフトマックス関数を噛ましても数の大小関係は変化しないので、分類したいだけしたいときは計算量削減のために省略することが多い
+
+
+# 強化学習
+* バンディット問題
+* 定常問題と非定常問題
+* 指数移動平均
+* ε-greedy法
+* UCB(Upper Confidence Bound)
+* 勾配バンディットアルゴリズム
